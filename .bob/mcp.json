@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "playwright-drill": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "playwright-etch": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "playwright-new": {
+      "command": "npx", 
+      "args": ["@playwright/mcp@latest"]
+    },
+    "playwright-old": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "playwright-stable": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "playwright-preinstall": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
