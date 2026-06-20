@@ -1,0 +1,11 @@
+{
+  "name": "kbtg-workshop",
+  "version": "1.0.0",
+  "description": "Student Grade Tracker — Jest test suite",
+  "scripts": {
+    "test": "jest --verbose"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
