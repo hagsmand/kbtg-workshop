@@ -18,16 +18,17 @@ Before spawning any agents, read enough of the project to brief them accurately:
 
 ## Step 2 — Run Documentation Agent and Code Quality Critic in parallel
 
-Call `spawn_subagent` **twice in the same tool-call block** (no dependencies between them):
+Call `spawn_subagent` **twice in the same tool-call block** (no dependencies between them).
+These run as general subagents — embed the full role context in each brief so the agent behaves correctly.
 
 **Documentation Agent subagent brief:**
-- Role: `docs-writer` persona — reads code, writes Markdown only.
+- Open with: "You are a technical documentation writer. You read source code and produce clear, accurate Markdown documentation. You never edit source code files."
 - Task: Read all source files and produce a `README.md` covering: project overview, file structure, how to run, feature walkthrough, function reference, and a Known Bugs section.
 - Output file: `README.md` in the workspace root.
 - Return: summary of what was documented and any notable observations.
 
 **Code Quality Critic subagent brief:**
-- Role: `code-quality-critic` persona — reviews across Correctness, Maintainability, Robustness, Best Practices.
+- Open with: "You are a senior code quality engineer. You review source code across four pillars: Correctness, Maintainability, Robustness, and Best Practices. You never speculate — you read all files before drawing conclusions."
 - Task: Read all source files. For every issue found report: Issue ID, Pillar, file+line, what the code does, what it should do, Severity, and a before/after fix recommendation.
 - Output file: `CODE_QUALITY_REPORT.md` in the workspace root.
 - Return: total issues by severity and pillar, list of confirmed bugs.
@@ -36,11 +37,10 @@ Wait for both subagents to finish before proceeding.
 
 ## Step 3 — Run Bug Finder using both reports as context
 
-Read `README.md` and `CODE_QUALITY_REPORT.md` fully, then call `spawn_subagent` once:
+Read `README.md` and `CODE_QUALITY_REPORT.md` fully, then call `start_subtask` with **`mode: "bug-finder"`**:
 
-**Bug Finder subagent brief:**
-- Role: `bug-finder` persona — covers Logic bugs AND UI/UX presentation bugs (including catch blocks that re-expose raw internal error strings or backend terminology to the user).
-- Context to pass in: the complete findings from Step 2 (confirmed bugs, quality issues, code observations).
+**Bug Finder task brief:**
+- Context to pass in: the complete findings from Step 2 (confirmed bugs, quality issues, code observations) — paste them verbatim into the message.
 - Task:
   1. Read the source files in full.
   2. Confirm every bug identified by the prior two agents with exact file:line citations.
@@ -50,10 +50,10 @@ Read `README.md` and `CODE_QUALITY_REPORT.md` fully, then call `spawn_subagent` 
 - Output file: `BUG_REPORT.md` in the workspace root.
 - Return: total bugs (confirmed + new), any newly discovered bugs, fix priority order.
 
-Wait for the subagent to finish before proceeding.
+Wait for the subtask to finish before proceeding.
 
 ## Step 4 — Fix all bugs
-
+ 
 Read `BUG_REPORT.md` in full. Then apply every fix directly using `apply_diff` or `search_and_replace`:
 
 1. Use `update_todo_list` to track each bug: pending → in-progress → fixed.
@@ -64,10 +64,9 @@ Read `BUG_REPORT.md` in full. Then apply every fix directly using `apply_diff` o
 
 ## Step 5 — Run Tester Agent
 
-Read the fully fixed source file(s), then call `spawn_subagent` once:
+Read the fully fixed source file(s), then call `start_subtask` with **`mode: "tester-agent"`**:
 
-**Tester Agent subagent brief:**
-- Role: `tester-agent` persona — writes, runs, and diagnoses tests.
+**Tester Agent task brief:**
 - Context to pass in: the complete fixed logic functions (copy the actual source), the full bug list with what each bug was and what fix was applied (all bugs become mandatory regression tests).
 - Task:
   1. Check whether a test framework already exists (`package.json`, test files). If not, scaffold **Jest** for JS projects (or pytest for Python): create `package.json` and a dedicated logic module that exports pure functions (do NOT modify the original source file).
