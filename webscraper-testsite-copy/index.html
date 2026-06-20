@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Test Web Scraper's features and performance with our dedicated test sites. Experiment with different configurations, extract data, and evaluate the tool's capabilities.">
+    <title>Test Sites | Web Scraper</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="#" class="logo">Web Scraper</a>
+            </div>
+            
+            <button class="navbar-toggler" id="navbarToggler" aria-label="Toggle navigation">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            
+            <nav class="navbar-menu" id="navbarMenu">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Cloud Scraper</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Marketplace</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="learnDropdown">
+                            Learn <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu" id="learnDropdownMenu">
+                            <li><a href="#" class="dropdown-item">Documentation</a></li>
+                            <li><a href="#" class="dropdown-item">Video Tutorials</a></li>
+                            <li><a href="#" class="dropdown-item">Test Sites</a></li>
+                            <li><a href="#" class="dropdown-item">Forum</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link btn-install">
+                            <i class="fab fa-chrome"></i> Install
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link btn-login">Cloud Login</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Test Sites</h1>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <p class="intro-text">
+                Here are some sites that you can use for training while learning how to use the Web Scraper.
+            </p>
+
+            <!-- Test Site Cards -->
+            <div class="test-sites">
+                <!-- Card 1: E-commerce site -->
+                <article class="test-site-card">
+                    <div class="card-content">
+                        <h2 class="card-title">
+                            <a href="#">E-commerce site</a>
+                        </h2>
+                        <p class="card-description">
+                            E-commerce site with multiple categories, subcategories. All items are loaded in one page.
+                        </p>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/ecommerce-allinone.png" alt="E-commerce site screenshot">
+                    </div>
+                </article>
+
+                <hr class="divider">
+
+                <!-- Card 2: E-commerce with pagination -->
+                <article class="test-site-card">
+                    <div class="card-content">
+                        <h2 class="card-title">
+                            <a href="#">E-commerce site with pagination links</a>
+                        </h2>
+                        <p class="card-description">
+                            E-commerce site with multiple categories, subcategories. Standard links are used for pagination.
+                        </p>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/ecommerce-static.png" alt="E-commerce site with pagination">
+                    </div>
+                </article>
+
+                <hr class="divider">
+
+                <!-- Card 3: E-commerce with AJAX -->
+                <article class="test-site-card">
+                    <div class="card-content">
+                        <h2 class="card-title">
+                            <a href="#">E-commerce site with AJAX pagination links</a>
+                        </h2>
+                        <p class="card-description">
+                            E-commerce site with multiple categories, subcategories. Dynamic links that use data without reloading the page for pagination.
+                        </p>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/ecommerce-ajax.png" alt="E-commerce site with AJAX">
+                    </div>
+                </article>
+
+                <hr class="divider">
+
+                <!-- Card 4: E-commerce with Load More -->
+                <article class="test-site-card">
+                    <div class="card-content">
+                        <h2 class="card-title">
+                            <a href="#">E-commerce site with "Load more" buttons</a>
+                        </h2>
+                        <p class="card-description">
+                            E-commerce site with multiple categories, subcategories. Instead of using pagination this site uses a "Load more" button to load more items.
+                        </p>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/ecommerce-more.png" alt="E-commerce site with Load more">
+                    </div>
+                </article>
+
+                <hr class="divider">
+
+                <!-- Card 5: E-commerce with Scroll -->
+                <article class="test-site-card">
+                    <div class="card-content">
+                        <h2 class="card-title">
+                            <a href="#">E-commerce site that loads items while scrolling</a>
+                        </h2>
+                        <p class="card-description">
+                            E-commerce site with multiple categories, subcategories. Instead of using pagination this site loads items when user scrolls the page down.
+                        </p>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/ecommerce-scroll.png" alt="E-commerce site with scroll loading">
+                    </div>
+                </article>
+
+                <hr class="divider">
+
+                <!-- Card 6: Table Playground -->
+                <article class="test-site-card">
+                    <div class="card-content">
+                        <h2 class="card-title">
+                            <a href="#">Table playground</a>
+                        </h2>
+                        <p class="card-description">
+                            This page contains multiple tables. You can train using Table selector here.
+                        </p>
+                    </div>
+                    <div class="card-image">
+                        <img src="images/tables.png" alt="Table playground">
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Products Column -->
+                <div class="footer-column">
+                    <h3 class="footer-heading">Products</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Scraper browser extension</a></li>
+                        <li><a href="#">Web Scraper Cloud</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Column -->
+                <div class="footer-column">
+                    <h3 class="footer-heading">Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Website Privacy Policy</a></li>
+                        <li><a href="#">Browser Extension Privacy Policy</a></li>
+                        <li><a href="#">Media kit</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Column -->
+                <div class="footer-column">
+                    <h3 class="footer-heading">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Video Tutorials</a></li>
+                        <li><a href="#">Screenshots</a></li>
+                        <li><a href="#">Test Sites</a></li>
+                        <li><a href="#">Forum</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Column -->
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@webscraper.io">info@webscraper.io</a></li>
+                        <li class="address">
+                            Ubelu 5-71,<br>
+                            Adazi, Latvia, LV-2164
+                        </li>
+                    </ul>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Chrome Web Store"><i class="fab fa-chrome"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright">Copyright © 2026 <strong>Web Scraper</strong> | All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

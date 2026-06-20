@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Placeholder Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #31C3DB;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            display: block;
+        }
+        .download-btn {
+            background: #31C3DB;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .download-btn:hover {
+            background: #79E9FC;
+        }
+        .image-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Placeholder Image Generator</h1>
+        <p>Click the buttons below to download placeholder images for the test site cards.</p>
+        
+        <div id="images"></div>
+    </div>
+
+    <script>
+        const images = [
+            { name: 'ecommerce-allinone.png', title: 'E-commerce\nAll in One', color: '#4A90E2' },
+            { name: 'ecommerce-static.png', title: 'E-commerce\nPagination', color: '#7B68EE' },
+            { name: 'ecommerce-ajax.png', title: 'E-commerce\nAJAX', color: '#50C878' },
+            { name: 'ecommerce-more.png', title: 'E-commerce\nLoad More', color: '#FF6B6B' },
+            { name: 'ecommerce-scroll.png', title: 'E-commerce\nScroll', color: '#FFA500' },
+            { name: 'tables.png', title: 'Table\nPlayground', color: '#9B59B6' }
+        ];
+
+        const imagesContainer = document.getElementById('images');
+
+        images.forEach(img => {
+            const section = document.createElement('div');
+            section.className = 'image-section';
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = 600;
+            canvas.height = 400;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, 600, 400);
+            gradient.addColorStop(0, img.color);
+            gradient.addColorStop(1, adjustColor(img.color, -30));
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 600, 400);
+            
+            // Add pattern
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 600; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, 400);
+                ctx.stroke();
+            }
+            for (let i = 0; i < 400; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(600, i);
+                ctx.stroke();
+            }
+            
+            // Add icon
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.font = 'bold 80px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('🛒', 300, 150);
+            
+            // Add text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 32px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            const lines = img.title.split('\n');
+            lines.forEach((line, index) => {
+                ctx.fillText(line, 300, 250 + (index * 40));
+            });
+            
+            // Add border
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(0, 0, 600, 400);
+            
+            const title = document.createElement('h3');
+            title.textContent = img.name;
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'download-btn';
+            downloadBtn.textContent = 'Download ' + img.name;
+            downloadBtn.onclick = () => {
+                const link = document.createElement('a');
+                link.download = img.name;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+            
+            section.appendChild(title);
+            section.appendChild(canvas);
+            section.appendChild(downloadBtn);
+            imagesContainer.appendChild(section);
+        });
+
+        function adjustColor(color, amount) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const r = Math.max(0, Math.min(255, (num >> 16) + amount));
+            const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount));
+            const b = Math.max(0, Math.min(255, (num & 0x0000FF) + amount));
+            return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+        }
+
+        // Auto-download all images
+        const downloadAllBtn = document.createElement('button');
+        downloadAllBtn.className = 'download-btn';
+        downloadAllBtn.textContent = '⬇️ Download All Images';
+        downloadAllBtn.style.fontSize = '18px';
+        downloadAllBtn.style.padding = '15px 30px';
+        downloadAllBtn.style.marginTop = '20px';
+        downloadAllBtn.onclick = () => {
+            document.querySelectorAll('.download-btn').forEach((btn, index) => {
+                if (btn !== downloadAllBtn) {
+                    setTimeout(() => btn.click(), index * 500);
+                }
+            });
+        };
+        imagesContainer.insertBefore(downloadAllBtn, imagesContainer.firstChild);
+    </script>
+</body>
+</html>
