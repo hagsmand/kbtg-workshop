@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Grade Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #1e1e2e;
+      --surface:  #2a2a3d;
+      --surface2: #313244;
+      --accent:   #7c6af7;
+      --accent2:  #e06c75;
+      --text:     #cdd6f4;
+      --subtext:  #a6adc8;
+      --border:   #45475a;
+      --green:    #a6e3a1;
+      --blue:     #89dceb;
+      --yellow:   #f9e2af;
+      --orange:   #fab387;
+      --red:      #f38ba8;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--accent);
+      padding: 18px 24px 14px;
+      text-align: center;
+    }
+    header h1 { font-size: 1.6rem; font-weight: 700; color: #fff; }
+    header p  { font-size: 0.82rem; color: #d0c8ff; margin-top: 4px; }
+
+    /* ── Main layout ── */
+    .main {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      flex: 1;
+    }
+
+    /* ── Left panel ── */
+    .panel {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 20px;
+      width: 280px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .panel h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .panel label { font-size: 0.82rem; color: var(--subtext); margin-bottom: 2px; display: block; }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.95rem;
+      padding: 8px 10px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input:focus { border-color: var(--accent); }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
+
+    .btn {
+      width: 100%;
+      padding: 9px;
+      border: none;
+      border-radius: 7px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: .85; }
+    .btn-add    { background: var(--accent);  color: #fff; }
+    .btn-remove { background: var(--accent2); color: #fff; }
+
+    .toast {
+      display: none;
+      font-size: 0.82rem;
+      border-radius: 6px;
+      padding: 7px 10px;
+      margin-top: -4px;
+    }
+    .toast.error   { background: #3d1f23; color: var(--red);    display: block; }
+    .toast.success { background: #1e3328; color: var(--green);  display: block; }
+
+    /* ── Right panel ── */
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    /* ── Stats bar ── */
+    .stats {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 2px; }
+    .stat-item span:first-child { font-size: 0.78rem; color: var(--subtext); }
+    .stat-item span:last-child  { font-size: 1.15rem; font-weight: 700; color: var(--yellow); }
+    .stat-mismatch { color: var(--red) !important; }
+
+    /* ── Table ── */
+    .table-wrap {
+      background: var(--surface);
+      border-radius: 10px;
+      overflow: hidden;
+      flex: 1;
+    }
+    .table-title {
+      padding: 14px 18px 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+    thead tr { background: var(--accent); }
+    thead th {
+      padding: 10px 14px;
+      text-align: center;
+      color: #fff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+    tbody tr:hover { background: var(--surface2); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td {
+      padding: 10px 14px;
+      text-align: center;
+      color: var(--subtext);
+    }
+    tbody td:first-child { color: var(--text); font-weight: 600; text-align: left; }
+    .scores-cell { font-size: 0.8rem; text-align: left !important; }
+    .avg-mismatch { color: var(--red) !important; font-weight: 700; }
+    .avg-correct  { color: var(--green) !important; }
+
+    .grade-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+    .grade-A { background: #1e3328; color: var(--green);  }
+    .grade-B { background: #1a2f35; color: var(--blue);   }
+    .grade-C { background: #3a3020; color: var(--yellow); }
+    .grade-D { background: #3a2515; color: var(--orange); }
+    .grade-F { background: #3a1820; color: var(--red);    }
+
+    .empty-row td {
+      text-align: center;
+      color: var(--subtext);
+      font-style: italic;
+      padding: 28px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--surface);
+      text-align: center;
+      padding: 10px;
+      font-size: 0.82rem;
+      color: var(--accent2);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🎓 Student Grade Tracker</h1>
+  <p>(bugs injected — can you find them?)</p>
+</header>
+
+<div class="main">
+
+  <!-- ── Left panel ── -->
+  <aside class="panel">
+    <h2>Add Student</h2>
+
+    <div>
+      <label for="inp-name">Name</label>
+      <input id="inp-name" type="text" placeholder="e.g. Alice" />
+    </div>
+    <div>
+      <label for="inp-scores">Scores (comma-separated)</label>
+      <input id="inp-scores" type="text" placeholder="e.g. 85, 90, 78" />
+    </div>
+    <button class="btn btn-add" onclick="onAdd()">➕ Add Student</button>
+    <p style="font-size:0.78rem; color:var(--subtext); text-align:center; margin-top:2px;">try adding some student</p>
+    <div id="toast-add" class="toast"></div>
+
+    <hr class="divider" />
+
+    <h2>Remove Student</h2>
+    <div>
+      <label for="inp-remove">Name</label>
+      <input id="inp-remove" type="text" placeholder="e.g. Bob" />
+    </div>
+    <button class="btn btn-remove" onclick="onRemove()">🗑 Remove Student</button>
+    <p style="font-size:0.78rem; color:var(--subtext); text-align:center; margin-top:2px;">try removing some student</p>
+    <div id="toast-remove" class="toast"></div>
+  </aside>
+
+  <!-- ── Right panel ── -->
+  <div class="right">
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-item">
+        <span>Total Students</span>
+        <span id="stat-count">0</span>
+      </div>
+      <div class="stat-item">
+        <span>Class Average</span>
+        <span id="stat-avg">—</span>
+      </div>
+      <div class="stat-item">
+        <span>Simple Mean</span>
+        <span id="stat-avg-simple">—</span>
+      </div>
+      <div class="stat-item">
+        <span>Top Student</span>
+        <span id="stat-top">—</span>
+      </div>
+      <div class="stat-item">
+        <span>Highest Scorer</span>
+        <span id="stat-top-correct">—</span>
+      </div>
+    </div>
+
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <div class="table-title">Student Records</div>
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left">Name</th>
+            <th style="text-align:left">Scores</th>
+            <th>Average</th>
+            <th>Sum ÷ Count</th>
+            <th>Grade</th>
+            <th>Highest</th>
+            <th>Lowest</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  ⚠️ Averages may look wrong — that's intentional! Find &amp; fix the bugs in the JS.
+</footer>
+
+<script>
+  // ── Data store ────────────────────────────────────────────────────────────
+  const students = {};                                          // BUG-09: plain object vulnerable to prototype pollution
+
+  // ── Logic (bugs preserved from student_grades.py) ────────────────────────
+
+  function calculateAverage(scores) {
+    const total = scores.reduce((a, b) => a + b, 0);
+    return total / (scores.length + 1);                        // BUG-01: should be / scores.length
+  }
+
+  function getHighestScore(scores) { return Math.max(...scores); }
+  function getLowestScore(scores)  { return Math.min(...scores); }
+
+  function getGradeLetter(avg) {
+    if (avg >= 90) return "A";
+    if (avg >= 80) return "B";
+    if (avg >= 70) return "C";
+    if (avg >= 60) return "D";
+    return "F";
+  }
+
+  function getClassAverage() {
+    const names = Object.keys(students);
+    if (names.length === 0) return null;
+    const allAvgs = names.map(n => calculateAverage(students[n]));
+    return allAvgs.reduce((a, b) => a + b, 0) / (allAvgs.length - 1); // BUG-02: should be / allAvgs.length
+  }
+
+  function findTopStudent() {
+    const names = Object.keys(students);
+    if (names.length === 0) return null;
+    let topName = null, topAvg = -1;
+    for (const name of names) {
+      const avg = calculateAverage(students[name]);
+      if (avg >= topAvg) {                                     // BUG-03: should be avg > topAvg
+        topAvg = avg;
+        topName = name;
+      }
+    }
+    return { name: topName, avg: topAvg };
+  }
+
+  function removeStudent(name) {
+    if (students[name] === undefined) {                        // BUG-09: should use hasOwnProperty.call
+      throw new Error(`KeyError: '${name}'`);
+    }
+    delete students[name];
+  }
+
+  // ── UI helpers ────────────────────────────────────────────────────────────
+
+  function showToast(id, msg, type) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = `toast ${type}`;
+    clearTimeout(el._t);
+    el._t = setTimeout(() => { el.className = "toast"; }, 3000);
+  }
+
+  function refreshTable() {
+    const tbody = document.getElementById("table-body");
+    tbody.innerHTML = "";
+
+    const names = Object.keys(students);
+
+    if (names.length === 0) {
+      tbody.innerHTML =
+        `<tr class="empty-row"><td colspan="7">No students yet. Add one on the left.</td></tr>`;
+    } else {
+      for (const name of names) {
+        const scores = students[name];
+        const avg    = calculateAverage(scores);
+        const grade  = getGradeLetter(avg);
+        const high   = getHighestScore(scores);
+        const low    = getLowestScore(scores);
+
+        const correctAvg = scores.reduce((a, b) => a + b, 0) / scores.length;
+        const avgClass = Math.abs(avg - correctAvg) > 0.001 ? "avg-mismatch" : "";
+        const correctClass = "avg-correct";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${escHtml(name)}</td>
+          <td class="scores-cell">${scores.join(", ")}</td>
+          <td class="${avgClass}">${avg.toFixed(2)}</td>
+          <td class="${correctClass}">${correctAvg.toFixed(2)}</td>
+          <td><span class="grade-badge grade-${grade}">${grade}</span></td>
+          <td>${high}</td>
+          <td>${low}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    // Stats
+    document.getElementById("stat-count").textContent = names.length;
+
+    if (names.length >= 1) {
+      const ca = getClassAverage();
+      // correct simple mean of all individual scores
+      const allScores = names.flatMap(n => students[n]);
+      const simpleMean = allScores.reduce((a, b) => a + b, 0) / allScores.length;
+
+      const caEl = document.getElementById("stat-avg");
+      const smEl = document.getElementById("stat-avg-simple");
+
+      if (names.length === 1) {
+        caEl.textContent = calculateAverage(Object.values(students)[0]).toFixed(2); // BUG-08: still calls buggy calculateAverage
+      } else {
+        caEl.textContent = ca.toFixed(2);
+      }
+      caEl.className = "stat-mismatch";                        // BUG-04: always red, never conditional
+
+      smEl.textContent = simpleMean.toFixed(2);
+      smEl.className   = "avg-correct";
+    } else {
+      document.getElementById("stat-avg").textContent        = "—";
+      document.getElementById("stat-avg-simple").textContent = "—";
+    }
+
+    // Top student — buggy (>=) vs correct (first highest)
+    const top = findTopStudent();
+    document.getElementById("stat-top").textContent =
+      top ? `${top.name} (${top.avg.toFixed(2)})` : "—";
+
+    // Correct top: find first student with max correct average
+    let correctTop = null, correctTopAvg = -1;
+    for (const name of names) {
+      const avg = students[name].reduce((a, b) => a + b, 0) / students[name].length;
+      if (avg > correctTopAvg) { correctTopAvg = avg; correctTop = name; }
+    }
+    const topCorrectEl = document.getElementById("stat-top-correct");
+    topCorrectEl.textContent = correctTop ? `${correctTop} (${correctTopAvg.toFixed(2)})` : "—";
+    topCorrectEl.className   = "avg-correct";
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); // BUG-05: missing &quot; and &#39;
+  }
+
+  // ── Event handlers ────────────────────────────────────────────────────────
+
+  function onAdd() {
+    const name   = document.getElementById("inp-name").value.trim();
+    const rawScr = document.getElementById("inp-scores").value.trim();
+
+    if (!name) {
+      showToast("toast-add", "⚠ Please enter a student name.", "error"); return;
+    }
+    if (students[name] !== undefined) {                        // BUG-09: should use hasOwnProperty.call
+      showToast("toast-add", `⚠ "${name}" already exists.`, "error"); return;
+    }
+    if (!rawScr) {
+      showToast("toast-add", "⚠ Please enter at least one score.", "error"); return;
+    }
+
+    const scores = rawScr.split(",")
+      .map(s => parseFloat(s.trim()))
+      .filter(n => !isNaN(n));                                 // BUG-07: missing isFinite(n) — accepts Infinity
+
+    if (scores.length === 0) {
+      showToast("toast-add", "⚠ Scores must be numbers, e.g. 85, 90, 78", "error"); return;
+    }
+
+    students[name] = scores;
+    document.getElementById("inp-name").value   = "";
+    document.getElementById("inp-scores").value = "";
+    showToast("toast-add", `✓ Added ${name}`, "success");
+    refreshTable();
+  }
+
+  function onRemove() {
+    const name = document.getElementById("inp-remove").value.trim();
+    if (!name) {
+      showToast("toast-remove", "⚠ Enter a student name to remove.", "error"); return;
+    }
+    try {
+      removeStudent(name);   // BUG 4 fires here if name doesn't exist
+      document.getElementById("inp-remove").value = "";
+      showToast("toast-remove", `✓ Removed ${name}`, "success");
+      refreshTable();
+    } catch (e) {
+      showToast("toast-remove", `⚠ ${e.message}`, "error");   // BUG-05(UI): exposes raw "KeyError: 'name'" to user
+    }
+  }
+
+  // Allow Enter key to submit forms
+  document.getElementById("inp-scores").addEventListener("keydown", e => {
+    if (e.key === "Enter") onAdd();
+  });
+  document.getElementById("inp-remove").addEventListener("keydown", e => {
+    if (e.key === "Enter") onRemove();
+  });
+
+  // ── Seed demo data ────────────────────────────────────────────────────────
+  students["Alice"]   = [95, 88, 92, 100, 85];
+  students["Bob"]     = [70, 65, 80, 75,  60];
+  students["Charlie"] = [55, 60, 58, 62,  70];
+  students["Diana"]   = [100, 98, 97, 99, 100];
+  students["Eve"]     = [100, 98, 97, 99, 100];  // tied with Diana
+
+  refreshTable();
+</script>
+</body>
+</html>
