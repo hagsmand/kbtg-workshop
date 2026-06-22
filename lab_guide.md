@@ -15,7 +15,5 @@
 
 3. Pausing here and think about the time we have to take talking with each agent at a time. How long you think it will take? Can we make it faster?
 
-3.1 Yes, we can let the Doc Agent and Code Quality Critic agent working parallely
-
 
 
