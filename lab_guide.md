@@ -1,7 +1,12 @@
 # Bob Workshop
 
+## 0. Setup
+1. Download installer from https://ibm.box.com/s/xxd06vaq1zce7eik7ie27hcs1lrun9m1
+
+2. Install Bob V2 and try log in
+
 ## Lab 1: Agent Skill
-1. Open the `student_grades.html` and find 4 bugs there manually. AI usage not allow in this step
+1. Open the `student_grades.html` and find 4 bugs there manually. AI usage not allow in this step.
 
 2. Now, let design our helpers. Here, we will create 4 modes (agents) to help us onboarding new project faster and smooth. 
 
