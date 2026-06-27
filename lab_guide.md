@@ -1,7 +1,7 @@
 # Bob Workshop
 
 ## 0. Setup
-1. Download installer from [https://ibm.box.com/s/xxd06vaq1zce7eik7ie27hcs1lrun9m1](https://bob.ibm.com/download)
+1. Download installer from [https://bob.ibm.com/download](https://bob.ibm.com/download)
 
 2. Install Bob and try log in
 
