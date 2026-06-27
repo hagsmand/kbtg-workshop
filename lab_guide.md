@@ -1,9 +1,9 @@
 # Bob Workshop
 
 ## 0. Setup
-1. Download installer from https://ibm.box.com/s/xxd06vaq1zce7eik7ie27hcs1lrun9m1
+1. Download installer from [https://ibm.box.com/s/xxd06vaq1zce7eik7ie27hcs1lrun9m1](https://bob.ibm.com/download)
 
-2. Install Bob V2 and try log in
+2. Install Bob and try log in
 
 ## Lab 1: Agent Skill
 1. Open the `student_grades_before_fix.html` and find 4 bugs there manually. AI usage not allow in this step.
