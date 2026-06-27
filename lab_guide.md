@@ -9,7 +9,7 @@
     
     2.2 Code Quality Critic Agent who..
     
-    2.3 Bug Finding Agent who..
+    2.3 Bug Find & Fix Agent who..
     
     2.4 Tester Agent who..
 
