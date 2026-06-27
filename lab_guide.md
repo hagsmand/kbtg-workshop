@@ -1,8 +1,8 @@
 # Lab 2: MCP on Bob
 
-0. Install and open Bob Stable version from https://bob.ibm.com/download
-
-0.1 Install Python
+## Section 0
+1. Install Python
+2. Install uv https://docs.astral.sh/uv/getting-started/installation/
 
 ## Section 1
 
