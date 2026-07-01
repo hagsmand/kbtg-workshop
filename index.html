@@ -206,6 +206,16 @@
       padding: .1em .35em; font-size: 12px;
     }
 
+    .hint-troubleshoot {
+      margin-top: .75rem;
+      padding: .5rem .75rem;
+      background: #fff8e1;
+      border-left: 3px solid #f0a500;
+      border-radius: 0 4px 4px 0;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
     /* ── PROMPT CARD ── */
     .prompt-card {
       border: 1px solid var(--code-border);
@@ -664,8 +674,35 @@
           <details class="hint-toggle">
             <summary>💡 Answer / Suggested Prompt</summary>
             <div class="hint-toggle__body">
-              <p><strong>Solution:</strong> Add a <em>web-search</em> or <em>browser</em> MCP tool (e.g. the Brave Search MCP or a Fetch/Puppeteer MCP server). This gives Bob the ability to query live sources at runtime, bypassing its training-data cutoff.</p>
-              <p><strong>Suggested prompt:</strong> <code>Search the web for the Premier League Champion of 2026 and tell me who won.</code> (requires a web-search MCP to be active)</p>
+              <p><strong>Solution:</strong> Install the DuckDuckGo MCP server so Bob can search the web for live data.</p>
+              <ol class="step-list">
+                <li class="step-item">
+                  <div class="step-num">1</div>
+                  <div class="step-body">
+                    <div class="step-title">Install DDG MCP</div>
+                    <p>Install this MCP on this workspace:</p>
+                    <pre><code>{
+  "mcpServers": {
+    "ddg-search": {
+      "command": "uvx",
+      "args": ["duckduckgo-mcp-server"]
+    }
+  }
+}</code></pre>
+                  </div>
+                </li>
+                <li class="step-item">
+                  <div class="step-num">2</div>
+                  <div class="step-body">
+                    <div class="step-title">Create an agent rule</div>
+                    <p>After installation, the agent might still not call the MCP automatically. Create a file <code>AGENTS.md</code> in your root folder with the following content:</p>
+                    <pre><code>- Any question out of knowledge cut-off, try searching on internet with DDG MCP.</code></pre>
+                  </div>
+                </li>
+              </ol>
+              <div class="hint-troubleshoot">
+                <strong>Troubleshoot:</strong> If <code>mcp.json</code> is already configured and still does not work, try running <code>uvx duckduckgo-mcp-server</code> manually in your terminal.
+              </div>
             </div>
           </details>
         </div>
