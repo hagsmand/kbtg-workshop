@@ -15,10 +15,10 @@
     2.2 Code Quality Critic Agent who..
     
     2.3 Bug Finding Agent who..
-    
-    2.4 Tester Agent who..
 
-3. Pausing here and think about the time we have to take talking with each agent at a time. How long you think it will take? Can we make it faster?
+4. Pausing here and think about the time we have to take talking with each agent at a time. How long you think it will take? Can we make it faster?
+
+
 
 
 
