@@ -216,6 +216,123 @@
       color: var(--text-secondary);
     }
 
+    /* ── DOWNLOAD BUTTON ── */
+    .download-btn {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .55rem 1.25rem;
+      background: var(--primary-color);
+      color: #fff;
+      font-size: 13px; font-weight: 600;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background .15s;
+    }
+    .download-btn:hover { background: #2563c4; }
+
+    .step-subheading {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--text-secondary);
+      margin: .6rem 0 .3rem;
+    }
+    .repo-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .4rem 1rem;
+      background: #f6f8fa;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      font-size: 13px; font-weight: 600;
+      color: #0969da;
+      text-decoration: none;
+      transition: background .15s, border-color .15s;
+    }
+    .repo-btn::before {
+      content: "⎋";
+      font-size: 14px; line-height: 1;
+      color: #57606a;
+    }
+    .repo-btn:hover { background: #eaf0ff; border-color: #0969da; }
+
+    .step-body--with-logo {
+      display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+    }
+    .step-body__content { flex: 1; }
+    .step-body__logo {
+      width: 88px; height: 88px;
+      object-fit: contain; flex-shrink: 0;
+      border-radius: 12px;
+    }
+
+    /* ── BRANCH LIST ── */
+    .branch-list-wrap {
+      margin-top: .75rem;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.18);
+    }
+    .branch-list-wrap__title {
+      padding: .65rem 1.1rem;
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: #8b949e;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .branch-list {
+      display: table;
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+    }
+    .branch-list__header {
+      display: table-row;
+    }
+    .branch-list__header > span {
+      display: table-cell;
+      padding: .45rem 1.1rem;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: #8b949e;
+      border-bottom: 1px solid #21262d;
+    }
+    .branch-list__item {
+      display: table-row;
+    }
+    .branch-list__item:not(:last-child) > * { border-bottom: 1px solid #21262d; }
+    .branch-list__item > * {
+      display: table-cell;
+      padding: .65rem 1.1rem;
+      vertical-align: middle;
+    }
+    .branch-list__item:hover > * { background: #161b22; }
+    .branch-tag {
+      display: inline-block;
+      background: #1c2d3f;
+      color: #79c0ff;
+      padding: .2em .65em;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .branch-list__desc {
+      color: #8b949e;
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .branch-list__badge {
+      display: inline-block;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      padding: .15em .5em; border-radius: 3px; margin-right: .35rem;
+      vertical-align: middle;
+    }
+    .badge--lab1  { background: #1f3a1f; color: #7ee787; }
+    .badge--lab2  { background: #1a2d4a; color: #79c0ff; }
+    .badge--lab3  { background: #2d1f3a; color: #d2a8ff; }
+    .badge--sheet { background: #2a2a1e; color: #e3b341; }
+
     /* ── PROMPT CARD ── */
     .prompt-card {
       border: 1px solid var(--code-border);
@@ -433,9 +550,13 @@
           <ol class="step-list">
             <li class="step-item">
               <div class="step-num">1</div>
-              <div class="step-body">
-                <div class="step-title">Download &amp; Install IBM Bob</div>
-                <p>Download the installer from <a href="https://bob.ibm.com/download" style="color:var(--primary-color)">https://bob.ibm.com/download</a> and run the installation.</p>
+              <div class="step-body step-body--with-logo">
+                <div class="step-body__content">
+                  <div class="step-title">Download &amp; Install IBM Bob</div>
+                  <p>Click the button below to download the installer, then run the installation.</p>
+                  <a href="https://bob.ibm.com/download" class="download-btn" target="_blank" rel="noopener">Download IBM Bob</a>
+                </div>
+                <img src="bob-logo.png" alt="IBM Bob logo" class="step-body__logo" />
               </div>
             </li>
             <li class="step-item">
@@ -443,6 +564,69 @@
               <div class="step-body">
                 <div class="step-title">Log in to Bob</div>
                 <p>Launch Bob and sign in with your IBM credentials. Verify you can open a workspace before proceeding.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Clone the workshop repository</div>
+                <h4 class="step-subheading">Repository</h4>
+                <a href="https://github.com/hagsmand/kbtg-workshop" class="repo-btn" target="_blank" rel="noopener">hagsmand/kbtg-workshop</a>
+                <h4 class="step-subheading" style="margin-top:1rem;">Clone command</h4>
+                <p>Open your terminal and run:</p>
+                <div class="branch-box" id="bb-clone">
+                  <div>
+                    <div class="branch-box__label">Terminal</div>
+                    <code>git clone https://github.com/hagsmand/kbtg-workshop.git</code>
+                  </div>
+                  <button class="copy-btn" onclick="copyBranch('bb-clone', 'git clone https://github.com/hagsmand/kbtg-workshop.git', this)">Copy</button>
+                </div>
+                <p style="font-size:13px;color:var(--text-secondary);margin-top:.5rem;">Then open the cloned folder as your workspace in Bob.</p>
+              </div>
+            </li>
+            <li class="step-item">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Check available branches</div>
+                <p>Inside the cloned folder, run the following command to see all available branches:</p>
+                <div class="branch-box" id="bb-branch-a">
+                  <div>
+                    <div class="branch-box__label">Terminal</div>
+                    <code>git branch -a</code>
+                  </div>
+                  <button class="copy-btn" onclick="copyBranch('bb-branch-a', 'git branch -a', this)">Copy</button>
+                </div>
+                <p style="font-size:13px;color:var(--text-secondary);margin:.6rem 0 .5rem;">You should see the following branches — we will switch between them for each lab:</p>
+                <div class="branch-list-wrap">
+                  <div class="branch-list-wrap__title">Active branches</div>
+                  <div class="branch-list">
+                    <div class="branch-list__header">
+                      <span>Branch</span>
+                      <span>Lab</span>
+                      <span>Description</span>
+                    </div>
+                    <div class="branch-list__item">
+                      <div><span class="branch-tag">lab_1_bob_skill</span></div>
+                      <div><span class="branch-list__badge badge--lab1">Lab 1</span></div>
+                      <div class="branch-list__desc">Agent Skills — design &amp; compose specialised Bob agents for project onboarding.</div>
+                    </div>
+                    <div class="branch-list__item">
+                      <div><span class="branch-tag">lab_2_mcp_and_3_code_quality</span></div>
+                      <div><span class="branch-list__badge badge--lab2">Lab 2</span> <span class="branch-list__badge badge--lab3">Lab 3</span></div>
+                      <div class="branch-list__desc">MCP on Bob + Code Quality — add live-data tools via MCP, then use Bob to review and improve code quality.</div>
+                    </div>
+                    <div class="branch-list__item">
+                      <div><span class="branch-tag">cheatsheet_lab1</span></div>
+                      <div><span class="branch-list__badge badge--sheet">Cheatsheet</span></div>
+                      <div class="branch-list__desc">Reference answers &amp; solution files for Lab 1.</div>
+                    </div>
+                    <div class="branch-list__item">
+                      <div><span class="branch-tag">cheatsheet_lab2-3</span></div>
+                      <div><span class="branch-list__badge badge--sheet">Cheatsheet</span></div>
+                      <div class="branch-list__desc">Reference answers &amp; solution files for Labs 2 &amp; 3.</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </li>
           </ol>
@@ -527,7 +711,7 @@
               <span class="prompt-card__title">Agent — Spawn 3 sub-agents</span>
               <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
             </div>
-            <div class="prompt-body" id="p1">Spawn 3 sub-agent to create to create these 3 following agent skill separately. First, Documentation Agent specialize on onboarding new project it check all file in the project thoroughly and note its finding. Second, Code Quality Critic Agent who critic code quality in project. Third, bug find and fix agent who find and fix bug in the project. The skill of each agent should be created in .bob/skills/</div>
+            <div class="prompt-body" id="p1">Spawn 3 sub-agent to create these 3 following agent skill separately:<br>1. Documentation Agent specialize on onboarding new project it check all file in the project thoroughly and note its finding.<br>2. Code Quality Critic Agent who critic code quality in project.<br>3. Bug find and fix agent who find and fix bug in the project.<br>The skill of each agent should be created in .bob/skills/</div>
           </div>
         </div>
 
@@ -564,9 +748,9 @@
             <div class="branch-box" id="bb-lab1-cheat">
               <div>
                 <div class="branch-box__label">Cheatsheet Branch</div>
-                <code>git checkout lab1_cheat_sheet</code>
+                <code>git checkout cheatsheet_lab1</code>
               </div>
-              <button class="copy-btn" onclick="copyBranch('bb-lab1-cheat', 'git checkout lab1_cheat_sheet', this)">Copy</button>
+              <button class="copy-btn" onclick="copyBranch('bb-lab1-cheat', 'git checkout cheatsheet_lab1', this)">Copy</button>
             </div>
           </div>
         </div>
@@ -788,9 +972,9 @@
             <div class="branch-box" id="bb-lab23-cheat">
               <div>
                 <div class="branch-box__label">Cheatsheet Branch</div>
-                <code>git checkout lab2&amp;3_cheat_sheet</code>
+                <code>git checkout cheatsheet_lab2-3</code>
               </div>
-              <button class="copy-btn" onclick="copyBranch('bb-lab23-cheat', 'git checkout lab2&3_cheat_sheet', this)">Copy</button>
+              <button class="copy-btn" onclick="copyBranch('bb-lab23-cheat', 'git checkout cheatsheet_lab2-3', this)">Copy</button>
             </div>
           </div>
         </div>
