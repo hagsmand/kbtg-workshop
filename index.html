@@ -168,6 +168,44 @@
     .step-body p:last-child { margin-bottom: 0; }
     .step-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: .35rem; }
 
+    /* ── HINT TOGGLE ── */
+    .hint-toggle {
+      margin-top: .75rem;
+      border: 1px solid #c8d6f5;
+      border-radius: 6px;
+      background: #eaf0ff;
+      overflow: hidden;
+    }
+    .hint-toggle summary {
+      list-style: none;
+      cursor: pointer;
+      padding: .55rem .9rem;
+      font-size: 12px; font-weight: 600;
+      color: var(--primary-color);
+      display: flex; align-items: center; gap: .4rem;
+      user-select: none;
+    }
+    .hint-toggle summary::-webkit-details-marker { display: none; }
+    .hint-toggle summary::before {
+      content: '▶';
+      font-size: 9px;
+      transition: transform .15s;
+      display: inline-block;
+    }
+    .hint-toggle[open] summary::before { transform: rotate(90deg); }
+    .hint-toggle__body {
+      padding: .6rem .9rem .75rem;
+      border-top: 1px solid #c8d6f5;
+      font-size: 13px; color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .hint-toggle__body p { margin: 0 0 .4rem; }
+    .hint-toggle__body p:last-child { margin-bottom: 0; }
+    .hint-toggle__body code {
+      background: #dce8ff; border-radius: 3px;
+      padding: .1em .35em; font-size: 12px;
+    }
+
     /* ── PROMPT CARD ── */
     .prompt-card {
       border: 1px solid var(--code-border);
@@ -593,6 +631,14 @@
               </div>
             </li>
           </ol>
+          <details class="hint-toggle">
+            <summary>💡 Answer / Suggested Prompt</summary>
+            <div class="hint-toggle__body">
+              <p><strong>Why so many tokens?</strong> Bob injects its full system prompt (custom instructions, active skills, workspace context) into every message — even a simple <code>hello</code>. The token counter reflects all of that hidden context, not just your two words.</p>
+              <p><strong>How to optimise:</strong> Reduce the number of active skills and custom instructions, keep workspace files small, or switch to a lighter mode (e.g. <em>Ask</em>) that carries a shorter system prompt.</p>
+              <p><strong>Suggested prompt:</strong> <code>How many tokens did my last message use, and what contributed to that count?</code></p>
+            </div>
+          </details>
         </div>
 
         <!-- Section 2 -->
@@ -615,6 +661,13 @@
               </div>
             </li>
           </ol>
+          <details class="hint-toggle">
+            <summary>💡 Answer / Suggested Prompt</summary>
+            <div class="hint-toggle__body">
+              <p><strong>Solution:</strong> Add a <em>web-search</em> or <em>browser</em> MCP tool (e.g. the Brave Search MCP or a Fetch/Puppeteer MCP server). This gives Bob the ability to query live sources at runtime, bypassing its training-data cutoff.</p>
+              <p><strong>Suggested prompt:</strong> <code>Search the web for the Premier League Champion of 2026 and tell me who won.</code> (requires a web-search MCP to be active)</p>
+            </div>
+          </details>
         </div>
 
         <!-- Section 3 -->
@@ -629,6 +682,13 @@
               </div>
             </li>
           </ol>
+          <details class="hint-toggle">
+            <summary>💡 Answer / Suggested Prompt</summary>
+            <div class="hint-toggle__body">
+              <p><strong>Suggested prompt:</strong> <code>Scrape https://webscraper.io/test-sites, extract the CSS styles used on the page, and reproduce them as a standalone stylesheet I can copy.</code></p>
+              <p>Bob will use a Fetch or Puppeteer MCP tool to retrieve the page, then parse and list the stylesheets and inline styles it finds.</p>
+            </div>
+          </details>
         </div>
       </section>
 
