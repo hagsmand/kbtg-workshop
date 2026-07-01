@@ -8,6 +8,6 @@
 
 - Command to tester agent: `Now let the tester agent do the test`
 
-- Prompt to create workflow skill: `Create skill which is a workflow you have done in this conversation. Starting from letting the documentation and code quality agent working parallely and then pass to bugfinding agent then fix the bug and then let the Tester Agent do the last job.`
+- Prompt to create workflow skill: `Create skill which is a workflow you have done in this conversation. Starting from letting the documentation and code quality agent working parallely and then pass to bug finding agent then fix the bug`
 
  
